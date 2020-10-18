@@ -21,25 +21,25 @@ services:
       - appnet
 
   auth:
-    build: ./srv/auth
+    build: services/auth
     command:  --registry=etcd --registry_address=etcd1:2379
     networks:
       - appnet
 
   geo:
-    build: ./srv/geo
+    build: services/geo
     command:  --registry=etcd --registry_address=etcd1:2379
     networks:
       - appnet
 
   profile:
-    build: ./srv/profile
+    build: services/profile
     command:  --registry=etcd --registry_address=etcd1:2379
     networks:
       - appnet
 
   rate:
-    build: ./srv/rate
+    build: services/rate
     command:  --registry=etcd --registry_address=etcd1:2379
     networks:
       - appnet

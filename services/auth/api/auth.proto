@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package api;
+
+import "google/rpc/status.proto";
+
+option go_package="services/auth/api";
+
+service Auth {
+  rpc Login(LoginRquest) returns (LoginResponse) {}
+}
+
+message LoginRquest{
+  string name = 1;
+  string password = 2;
+}
+
+message LoginResponse{
+  string token = 1;
+  google.rpc.Status status = 2;
+}
+
+
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string password = 3;
+  string ip = 4;
+  string token = 5;
+}
+
