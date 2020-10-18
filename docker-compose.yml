@@ -1,45 +1,46 @@
-consul:
-  command: -server -bootstrap -rejoin 
-  image: progrium/consul:latest
-  ports:
-    - "8300:8300"
-    - "8400:8400"
-    - "8500:8500"
-    - "8600:53/udp"
-micro:
-  command: --registry_address=consul:8500 api --handler=rpc
-  image: microhq/micro:latest
-  links:
-    - consul
-    - api
-  ports:
-    - "8080:8080"
-api:
-  build: ./api/hotel
-  command: --registry_address=consul:8500
-  links:
-    - consul
-    - auth
-    - geo
-    - profile
-    - rate
-auth:
-  build: ./srv/auth
-  command: --registry_address=consul:8500
-  links:
-    - consul
-geo:
-  build: ./srv/geo
-  command: --registry_address=consul:8500
-  links:
-    - consul
-profile:
-  build: ./srv/profile
-  command: --registry_address=consul:8500
-  links:
-    - consul
-rate:
-  build: ./srv/rate
-  command: --registry_address=consul:8500
-  links:
-    - consul
+version: '2'
+
+networks:
+  appnet:
+    external:
+      name: etcds
+
+services:
+#  micro:
+#    command: micro server & && micro --registry=etcd --registry_address=etcd1:2379 api --handler=rpc
+#    image: micro/micro:latest
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - appnet
+
+  api:
+    build: ./api/hotel
+    command:  --registry=etcd --registry_address=etcd1:2379
+    networks:
+      - appnet
+
+  auth:
+    build: ./srv/auth
+    command:  --registry=etcd --registry_address=etcd1:2379
+    networks:
+      - appnet
+
+  geo:
+    build: ./srv/geo
+    command:  --registry=etcd --registry_address=etcd1:2379
+    networks:
+      - appnet
+
+  profile:
+    build: ./srv/profile
+    command:  --registry=etcd --registry_address=etcd1:2379
+    networks:
+      - appnet
+
+  rate:
+    build: ./srv/rate
+    command:  --registry=etcd --registry_address=etcd1:2379
+    networks:
+      - appnet
+

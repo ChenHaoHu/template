@@ -1,15 +1,13 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+*
+!*.*
+!*/
 
-# Test binary, built with `go test -c`
-*.test
+*.pb.go
+*.micro.go
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+!Dockerfile
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+!Makefile
+
+
+go.sum
